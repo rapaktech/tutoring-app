@@ -23,15 +23,25 @@ const UserSchema = mongoose.Schema({
     },
     userRole: {
         type: String,
-        enum: ["admin", "user", "student", "not assigned"]
+        default: "student",
+        enum: ["student", "tutor", "admin"],
+        required: true
     },
+    subjects: [
+        String
+    ],
+    lessons: [
+        String
+    ],
     isTutor: {
         type: Boolean,
-        default: 0
+        default: false,
+        required: true
     },
     isAdmin: {
         type: Boolean,
-        default: 0
+        default: false,
+        required: true
     }
 }, {
     timestamps: true

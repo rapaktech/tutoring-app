@@ -1,34 +1,34 @@
-// Check to see if there's a token and header
+const { decodeToken } = require('../services/jwtService');
 
-const jwt = require('jsonwebtoken');
+exports.authenticateUser = (req, res, next) => {
+    // Check for token
+    if (!req.headers.authorization) return res.status(401).json({ message: "Authorization token required" });
+    let splitHeader = req.headers.authorization.split(' ');
+    if (splitHeader[0] !== "Bearer") return res.status(401).json({ message: "Auth format is Bearer <token>" });
 
-const { SECRET } = process.env;
 
+    // Check if token is valid
+    let token = splitHeader[1];
+    let decodedToken = decodeToken(token);
 
-module.exports = (req, res, next) => {
-    // Get token from header
-    const token = req.header("x-auth-token");
-
-    // Check if token doesn't exist
-    if (!token) {
-        return res.status(401).json({
-            statusCode: 401,
-            message: "No token. Authorization Denied!"
-        });
-    }
-
-    // If token exists
-    try {
-        const decoded = jwt.verify(token, SECRET);
-
-        // Assign user to request object
-        req.user = decoded.user;
-
+    if (!decodedToken) return res.status(401).json({ message: "Token is invalid or expired token"});
+    else {
+        req.user = decodedToken;
         next();
-    } catch (error) {
-        return res.status(401).json({
-            statusCode: 401,
-            message: "Token is not valid!"
-        });
     }
+}
+
+exports.checkIfAdmin = (req, res, next) => {
+    if (req.user.isAdmin == false) return res.status(403)
+        .json({ message: 'This route is strictly restricted to admin only.' })
+    ;
+    next();
+}
+
+
+exports.checkIfTutor = (req, res, next) => {
+    if (req.user.isTutor == false) return res.status(403)
+        .json({ message: 'This route is strictly restricted to tutors only.' })
+    ;
+    next();
 }
