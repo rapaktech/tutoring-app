@@ -50,5 +50,5 @@ The users on the platform have different privileges based on their roles as outl
 
 
 ***Students:***
-2. Students can see all tutors taking a subject in a category
-3. Students can book lessons
+1. Students can see all tutors taking a subject in a category
+2. Students can book lessons
