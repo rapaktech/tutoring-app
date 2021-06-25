@@ -20,4 +20,8 @@ router.post('/login', usersController.loginUser);
 router.get('/auth', auth.authenticateUser, usersController.getLoggedInUser);
 
 
+// change forgotten password
+router.post('/password', usersController.changePassword);
+
+
 module.exports = router;

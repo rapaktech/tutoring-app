@@ -19,6 +19,7 @@ The users on the platform have different privileges based on their roles as outl
 5. Admin/Students can search for tutors by first name, sorted alphabetically in ascending order.
 6. Students/Tutors can sign up.
 7. Admin/Students/Tutors can sign in.
+8. Admin/Students/Tutors can change their password if they forget their password.
 
 
 
@@ -40,7 +41,7 @@ The users on the platform have different privileges based on their roles as outl
 
 
 
-***Tutors***:
+***Tutors:***
 
 1. Tutors can register to take a subject in a category (POST)
 2. Tutors can see all subjects they registered to take (GET)
@@ -50,5 +51,6 @@ The users on the platform have different privileges based on their roles as outl
 
 
 ***Students:***
+
 1. Students can see all tutors taking a subject in a category
 2. Students can book lessons

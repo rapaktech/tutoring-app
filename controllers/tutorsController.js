@@ -37,13 +37,13 @@ exports.deactivateTutor = (req, res) => {
 }
 
 exports.addTutorToSubject = (req, res) => {
-    User.findOne({ email:req.body.email }, (err, foundTutor) => {
+    User.findOne({ email:req.user.email }, (err, foundTutor) => {
         if (err) return res.status(200).json({ err });
         else { 
             Subject.findOne({ name: req.body.subjectName }, (err, foundSubject) => {
                 if (err) return res.status(200).json({ err });
-                foundSubject.tutors.push(req.body.email);
-                foundSubject.save((err, updatedTutor) => {
+                foundSubject.tutors.push(req.user.email);
+                foundSubject.save((err, updatedSubject) => {
                     if (err) return res.status(200).json({ err });
                     return res.status(200)
                     .json({ message: `Tutor added to subject, ${req.body.subjectName}` , foundSubject, foundTutor });

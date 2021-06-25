@@ -104,3 +104,39 @@ exports.loginUser = async (req, res) => {
         res.status(500).send("Server Error");
     }
 }
+
+
+exports.changePassword = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Check user email
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({
+                statusCode: 400,
+                message: "Invalid Credentials. Please Check and try again"
+            });
+        }
+
+        // hash user password
+        bcrypt.genSalt(Number(SALT), (err, salt) => {
+            if (err) return res.status(500).json({ err });
+            bcrypt.hash(password, salt, (err, hashedPassword) => {
+                if (err) return res.status(500).json({ err });
+
+                // save password to user data
+                user.password = hashedPassword;
+                user.save((err, savedUser) => {
+                    if (err) return res.status(500).json({ err });
+                    let token = jwtService.createToken(savedUser);
+                    return res.status(200).json({ message: "Your password change is successful", token });
+                });
+            });
+        });
+
+    } catch (error) {
+        res.status(500).send("Server Error");
+    }
+}
