@@ -15,6 +15,8 @@ router.get('/tutors/findtutor', auth.authenticateUser, auth.checkIfAdmin, tutors
 
 router.put('/tutors/off', auth.authenticateUser, auth.checkIfAdmin, tutorsController.deactivateTutor);
 
+router.put('/tutors/on', auth.authenticateUser, auth.checkIfAdmin, tutorsController.reactivateTutor);
+
 router.put('/tutors/add', auth.authenticateUser, auth.checkIfTutor, tutorsController.addTutorToSubject);
 
 router.get('/tutors/findbysubject', auth.authenticateUser, tutorsController.findTutorBySubject);

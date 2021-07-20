@@ -36,6 +36,19 @@ exports.deactivateTutor = (req, res) => {
     });
 }
 
+exports.reactivateTutor = (req, res) => {
+    User.findOne({ email:req.body.email }, (err, foundTutor) => {
+        if (err) return res.status(200).json({ err });
+        else { 
+            foundTutor.isTutor = true;
+            foundTutor.save((err, updatedTutor) => {
+                if (err) return res.status(200).json({ err });
+                return res.status(200).json({ message: "Tutor reactivated" , updatedTutor });
+            });
+        }
+    });
+}
+
 exports.addTutorToSubject = (req, res) => {
     User.findOne({ email:req.user.email }, (err, foundTutor) => {
         if (err) return res.status(200).json({ err });
